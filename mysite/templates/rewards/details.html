@@ -1,0 +1,111 @@
+{% extends 'rewards/base.html' %}
+{% load static %}
+{% block title %}Details{% endblock %}
+
+{% block header %}Details{% endblock %}
+
+{% block content %}
+{% if request.session.customer_id %}
+
+<link rel="stylesheet" href="{% static 'rewards/css/custom.css' %}">
+
+<!-- Main Content -->
+<div class="space-y-4">
+    <div class="bg-white p-8 rounded shadow">
+        <div class="bg-gray-100 p-8 rounded shadow">
+            <div class="flex items-center justify-between mb-8">
+                <div class="flex items-center">
+                    <img alt="{{ app.appname }} logo" class="w-12 h-12 mr-5" src="{{ app.logo.url }}"/>
+                    <div>
+                        <h2 class="text-lg font-bold">{{ app.appname }}</h2>
+                        <a class="text-blue-500" href="{{ app.link }}">{{ app.link }}</a>
+                    </div>
+                </div>
+                <span class="bg-teal-500 text-white py-2 px-4 rounded text-lg">{{ app.points }} POINTS</span>
+            </div>
+            
+            <!-- Drag and Drop Upload Form -->
+            <form method="POST" enctype="multipart/form-data" onsubmit="return validateForm();">
+                {% csrf_token %}
+                <input type="hidden" name="app_id" value="{{ app.id }}">
+
+                <div class="flex justify-center mb-8">
+                    <div id="dropzone" class="dropzone">
+                        <span id="dropzoneText">Drag & Drop to Upload<br>or click to select files</span>
+                        <input type="file" id="fileInput" name="screenshots" class="hidden" accept="image/*"/>
+                    </div>
+                </div>
+
+                <!-- Error Message -->
+                <p id="error-message" class="text-red-500 hidden">Please select an image before uploading.</p>
+
+                <!-- Submit Button -->
+                <div class="flex justify-center mt-5">
+                    <button type="submit" class="bg-orange-500 text-white p-2 rounded">Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script>
+function validateForm() {
+    let fileInput = document.getElementById("fileInput");
+    let errorMessage = document.getElementById("error-message");
+
+    if (!fileInput.files.length) {
+        errorMessage.classList.remove("hidden");  // Show error message
+        return false;  // Prevent form submission
+    }
+    return true;  // Allow form submission
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('fileInput');
+    const dropzoneText = document.getElementById('dropzoneText');
+
+    dropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropzone.classList.add('dragover');
+    });
+
+    dropzone.addEventListener('dragleave', () => {
+        dropzone.classList.remove('dragover');
+    });
+
+    dropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('dragover');
+
+        const files = e.dataTransfer.files;
+        fileInput.files = files;  // Assign dropped files to input field
+        displayPreview(files);
+    });
+
+    dropzone.addEventListener('click', () => {
+        fileInput.click();
+    });
+
+    fileInput.addEventListener('change', (e) => {
+        displayPreview(e.target.files);
+    });
+
+    function displayPreview(files) {
+    if (files.length > 0) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            dropzoneText.innerHTML = `<img src="${e.target.result}" alt="Uploaded Image" class="w-full h-full object-cover rounded-lg"/>`;
+        };
+        reader.readAsDataURL(files[0]); // Show the first image preview
+    }
+}
+
+});
+</script>
+
+{% else %}
+    <p>Login Again!!</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends 'rewards/base.html' %}
+{% load static %}
+{% block title %}Admin Panel - Add Apps{% endblock %}
+
+{% block header %}Hello Admin{% endblock %}
+
+
+{% block content %}
+{% if request.session.customer_id %}
+<div class="bg-white p-8 rounded shadow-md">
+    <!-- enctype is required for image upload -->
+    <form class="space-y-4" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()"> 
+        {% csrf_token %}
+        <div class="flex justify-center mb-4">
+            <label class="w-40 h-40 flex flex-col items-center justify-center px-4 py-6 bg-gray-200 text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue-500 hover:text-white">
+                
+                <!-- Hidden File Input -->
+                <input type="file" name="logo" id="logoInput" class="hidden" accept="image/*" onchange="previewLogo(event)"/>
+                
+                <!-- Image Preview (Initially Hidden) -->
+                <img id="logoPreview" class="hidden w-full h-full object-cover rounded-lg" alt="App Logo"/>
+                
+                <!-- Upload Icon and Text (Visible Initially, Hidden After Upload) -->
+                <div id="uploadIcon">
+                    <i class="fas fa-cloud-upload-alt fa-3x"></i>
+                    <span class="mt-2 text-base leading-normal">Select Your App Logo</span>
+                </div>
+            </label>
+        </div>
+        
+        <br><br><br>
+        <div class="flex space-x-4">
+            <input class="w-1/2 p-2 border rounded" placeholder="App Name" type="text" name="name"/>
+            <input class="w-1/2 p-2 border rounded" placeholder="App Link" type="text" name="link"/>
+        </div>
+        <div class="flex space-x-4">
+            <select class="w-1/2 p-2 border rounded" name="category">
+                <option disabled selected>App Category</option>
+                <option>Social Media</option>
+                <option>Entertainment</option>
+                <option>Finance</option>
+                <option>Productivity</option>
+                <option>Shopping & E-commerce</option>
+                <option>Health & Fitness</option>
+                <option>Education</option>
+                <option>Travel & Navigation</option>
+                <option>Food & Drinks</option>
+                <option>Business & Finance</option>
+            </select>
+            <select class="w-1/2 p-2 border rounded" name="subcategory">
+                <option disabled selected>Sub Category</option>
+                <option>Messaging</option>
+                <option>Photo & Video Sharing</option>
+                <option>Microblogging</option>
+                <option>Community & Forums</option>
+                <option>Video Streaming</option>
+                <option>Music Streaming</option>
+                <option>Gaming</option>
+                <option>Podcast & Radio</option>
+                <option>Mobile Banking</option>
+                <option>Investment & Stocks</option>
+                <option>Cryptocurrency</option>
+                <option>Expense Tracking</option>
+                <option>Task Management</option>
+                <option>Note-Taking</option>
+                <option>Calendar & Scheduling</option>
+                <option>File Storage & Cloud</option>
+            </select>
+        </div>
+        <br><br><br><br><br>
+        <div class="flex justify-center space-x-20">
+            <!-- Hidden Input to Store Points -->
+            <input type="hidden" id="pointsInput" name="points" value="0">         
+            <!-- Add Points Button -->
+            <button id="addPointsBtn" type="button" onclick="addPoints()" 
+                class="bg-teal-500 text-white p-2 rounded w-32 text-center">
+                ADD POINTS
+            </button>      
+            <!-- Submit Button -->
+            <button type="submit" class="bg-orange-500 text-white p-2 rounded">
+                SUBMIT
+            </button>
+        </div>   
+    </form>
+</div>
+
+<!-- JavaScript -->
+<script src="{% static 'rewards/js/add_app.js' %}"></script>
+{% else %}
+        <p>Login Again!!</p>
+{% endif %}
+{% endblock %}

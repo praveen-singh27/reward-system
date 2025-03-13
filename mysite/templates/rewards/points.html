@@ -1,0 +1,25 @@
+{% extends 'rewards/base.html' %}
+
+{% block title %}Profile{% endblock %}
+{% block header %}My Profile{% endblock %}
+
+{% block content %}
+{% if request.session.customer_id %}
+<div class="max-w-3xl mx-auto bg-gradient-to-br from-blue-500 to-indigo-600 p-6 rounded-xl shadow-lg text-white">
+    <!-- Rewards Summary -->
+    <div class="mt-6 bg-white rounded-lg p-5 shadow-md text-gray-800">
+        <h3 class="text-lg font-semibold mb-3">🎉 Rewards Summary</h3>
+        <div class="flex justify-between items-center">
+            <span class="bg-yellow-400 text-black px-4 py-2 rounded-lg font-bold shadow-md">
+                <i class="fas fa-coins"></i> Total Points: {{ total_points }}
+            </span>
+            <span class="bg-green-500 text-white px-4 py-2 rounded-lg font-bold shadow-md">
+                <i class="fas fa-tasks"></i> Tasks Completed: {{ tasks_completed }}
+            </span>
+        </div>
+    </div>
+</div>
+{% else %}
+    <p class="text-center text-white text-xl mt-10">❌ Login Again!!</p>
+{% endif %}
+{% endblock %}

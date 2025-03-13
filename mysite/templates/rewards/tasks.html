@@ -1,0 +1,26 @@
+{% extends 'rewards/base.html' %}
+
+{% block title %}Tasks{% endblock %}
+{% block header %}Hello{% endblock %}
+{% block content %}
+    {% if request.session.customer_id %}
+    <h3 class="text-lg font-semibold mt-6 mb-2">✅ Completed Apps</h3>
+
+    {% if screenshots %}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {% for screenshot in screenshots %}
+                <div class="bg-white p-4 rounded shadow">
+                    <h2 class="text-lg font-bold">{{ screenshot.app.appname }}</h2>
+                    <p class="text-gray-500 text-sm"><i class="fas fa-tags text-blue-500"></i> {{ screenshot.app.category }} - {{ screenshot.app.subcategory }}</p>
+                    <p class="mt-2 text-green-600"><i class="fas fa-coins text-yellow-400"></i> Earned: {{ screenshot.app.points }} Points</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-gray-500">No completed apps yet.</p>
+    {% endif %}
+        
+    {% else %}
+        <p>Login Again!!</p>
+    {% endif %}
+{% endblock %}

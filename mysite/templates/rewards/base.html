@@ -1,0 +1,64 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   {% block title %}Panel{% endblock %}
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+ </head>
+ <body class="bg-gray-100">
+  <div class="min-h-screen flex flex-col">
+   <header class="bg-gray-300 p-4">
+    <h1 class="text-center text-xl font-bold">
+     {% block header %}Hello{% endblock %}
+    </h1>
+   </header>
+   <div class="flex flex-1">
+    <aside class="bg-gray-200 w-1/4 p-4">
+     <nav class="space-y-4">
+
+      {% if account_type == 'admin' %}
+      <!-- Admin Side bar -->
+        <a class="block w-full p-2 rounded shadow text-left 
+        {% if request.path == '/rewards/home' or '/rewards/detail/' in request.path %}
+        bg-blue-500 text-white !important {% else %} bg-white {% endif %}" href="{% url 'home' %}">
+          <i class="fas fa-home"></i> Home
+
+      </a>
+      <a class="block w-full p-2 rounded shadow text-left {% if request.path == '/rewards/add-app' %}bg-blue-500 text-white{% else %}bg-white{% endif %}" href="{% url 'add-app' %}">
+          <i class="fas fa-plus"></i> Add Apps
+      </a>
+      <a class="block w-full p-2 rounded shadow text-left {% if request.path == '/rewards/logout' %}bg-blue-500 text-white{% else %}bg-white{% endif %}" href="{% url 'logout' %}">
+          <i class="fas fa-sign-out-alt"></i> Logout
+      </a>
+      
+       <!-- Normal Users Sidebar -->
+      {% else %}
+      <a class="block w-full p-2 rounded shadow text-left {% if request.path == '/rewards/home' or '/rewards/detail/' in request.path %}bg-blue-500 text-white{% else %}bg-white{% endif %}" href="{% url 'home' %}">
+        <i class="fas fa-home"></i> Home
+    </a>
+    <a class="block w-full p-2 rounded shadow text-left {% if request.path == '/rewards/profile' %}bg-blue-500 text-white{% else %}bg-white{% endif %}" href="{% url 'profile' %}">
+        <i class="fas fa-user"></i> Profile
+    </a>
+    <a class="block w-full p-2 rounded shadow text-left {% if request.path == '/rewards/point' %}bg-blue-500 text-white{% else %}bg-white{% endif %}" href="{% url 'point' %}">
+        <i class="fas fa-coins"></i> Points
+    </a>
+      <a class="block w-full p-2 rounded shadow text-left {% if request.path == '/rewards/task' %}bg-blue-500 text-white{% else %}bg-white{% endif %}" href="{% url 'task' %}">
+          <i class="fas fa-tasks"></i> Tasks
+      </a>
+      <a class="block w-full p-2 rounded shadow text-left {% if request.path == '/rewards/logout' %}bg-blue-500 text-white{% else %}bg-white{% endif %}" href="{% url 'logout' %}">
+        <i class="fas fa-sign-out-alt""></i> Logout
+    </a>
+      {% endif %}
+     </nav>
+    </aside>
+    <main class="flex-1 p-4">
+     {% block content %}{% endblock %}
+    </main>
+   </div>
+  </div>
+ </body>
+</html>

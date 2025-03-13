@@ -1,0 +1,28 @@
+{% extends 'rewards/base.html' %}
+
+
+
+{% block title %}Home{% endblock %}
+{% block header %}Home{% endblock %}
+{% block content %}
+{% if request.session.customer_id %}
+<div class="space-y-4">
+    {% for app in apps %}
+        <div class="bg-white p-4 rounded shadow flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <img alt="{{ app.appname }} logo" class="w-12 h-12" src="{{ app.logo.url }}"/>
+                <div>
+                    <h2 class="text-lg font-bold">{{ app.appname }}</h2>
+                    <a class="text-blue-500" href="{% url 'detail' app.id %}">View in Detail</a>
+                </div>
+            </div>
+            <button type="button" class="bg-teal-500 text-white p-2 rounded w-32 text-center">{{ app.points }} POINTS</button>
+        </div>
+        
+    {% endfor %}
+</div>
+{% else %}
+    <p>Login Again!!</p>
+{% endif %}
+{% endblock %}
+

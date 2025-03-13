@@ -1,0 +1,48 @@
+.dropzone {
+    width: 100%;
+    max-width: 500px; /* Adjust width as needed */
+    height: 300px; /* Increase height */
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer; 
+}
+
+.dropzone.dragover {
+    border-color: #000;
+    background-color: #f3f3f3;
+    cursor: grab;
+}
+
+/* Ensure the text is centered and transparent */
+#dropzoneText {
+    position: absolute;
+    font-size: 16px;
+    text-align: center;
+    width: 100%;
+    color: rgb(0, 0, 0); /* Semi-transparent white */
+    
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 10;
+    transition: opacity 0.3s;
+}
+
+/* Hide text when an image is uploaded */
+.dropzone img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* Hide text when image is uploaded */
+.dropzone img + #dropzoneText {
+    opacity: 0;
+}
+
+
