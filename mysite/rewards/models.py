@@ -19,9 +19,17 @@ def user_directory_path(instance, filename):
 
 
 class Screenshot(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+    ]
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+
     screenshot = models.ImageField(upload_to=user_directory_path)
     app = models.ForeignKey(App, on_delete=models.CASCADE)
     user = models.ForeignKey(UserAccount, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return f"{self.user.username} - {self.app.appname} Screenshot"
+    
