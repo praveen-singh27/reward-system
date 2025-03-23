@@ -143,3 +143,21 @@ def point_view(request):
         'tasks_completed': tasks_completed,
     })
 
+def approval_view(request):
+    pending_screenshots = Screenshot.objects.filter(status="pending")
+
+    if request.method == "POST":
+        screenshot_id = request.POST.get("screenshot_id")
+        action = request.POST.get("action")
+        screenshot = Screenshot.objects.get(id=screenshot_id)
+
+        if action == "approve":
+            screenshot.status = "approved"
+        elif action == "reject":
+            screenshot.status = "rejected"
+
+        screenshot.save()
+        return redirect("approval")
+
+    return render(request, "rewards/approval.html", {"screenshots": pending_screenshots})
+

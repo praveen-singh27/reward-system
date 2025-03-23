@@ -1,0 +1,44 @@
+{% extends 'rewards/base.html' %}
+
+{% block title %}Screenshot Approval{% endblock %}
+{% block header %}Approvals{% endblock %}
+{% block content %}
+<h2 class="text-lg font-bold">Pending Screenshots for Approval</h2>
+
+{% if screenshots %}
+    <table class="table-auto w-full border-collapse border border-gray-300 mt-4">
+        <thead>
+            <tr class="bg-gray-100">
+                <th class="border border-gray-300 px-4 py-2">User</th>
+                <th class="border border-gray-300 px-4 py-2">App</th>
+                <th class="border border-gray-300 px-4 py-2">Screenshot</th>
+                <th class="border border-gray-300 px-4 py-2">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for screenshot in screenshots %}
+            <tr>
+                <td class="border border-gray-300 px-4 py-2">{{ screenshot.user.username }}</td>
+                <td class="border border-gray-300 px-4 py-2">{{ screenshot.app.appname }}</td>
+                
+                <td class="border border-gray-300 px-4 py-2">
+                    <img src="{{ screenshot.screenshot.url }}" class="w-24 h-24 object-cover rounded">
+                </td>
+                <td class="border border-gray-300 px-4 py-2">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="screenshot_id" value="{{ screenshot.id }}">
+                        <button name="action" value="approve" class="bg-green-500 text-white px-4 py-2 rounded">Approve</button>
+                        <span class="inline-block w-7"></span> 
+                        <button name="action" value="reject" class="bg-red-500 text-white px-6 py-2 rounded mr-8">Reject</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No pending screenshots for approval.</p>
+{% endif %}
+
+{% endblock %}

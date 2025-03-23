@@ -10,6 +10,7 @@ urlpatterns = [
     path('detail/<int:app_id>/', views.detail, name='detail'),
     path('profile', views.profile_view, name='profile'),
     path('task', views.task_view, name='task'),
+    path('approval', views.approval_view, name='approval')
 
 ] 
 

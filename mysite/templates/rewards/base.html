@@ -31,6 +31,11 @@
       <a class="block w-full p-2 rounded shadow text-left {% if request.path == '/rewards/add-app' %}bg-blue-500 text-white{% else %}bg-white{% endif %}" href="{% url 'add-app' %}">
           <i class="fas fa-plus"></i> Add Apps
       </a>
+
+      <a class="block w-full p-2 rounded shadow text-left {% if request.path == '/rewards/approval' %}bg-blue-500 text-white{% else %}bg-white{% endif %}" href="{% url 'approval' %}">
+        <i class="fas fa-tasks"></i> Approvals
+      </a>
+
       <a class="block w-full p-2 rounded shadow text-left {% if request.path == '/rewards/logout' %}bg-blue-500 text-white{% else %}bg-white{% endif %}" href="{% url 'logout' %}">
           <i class="fas fa-sign-out-alt"></i> Logout
       </a>
